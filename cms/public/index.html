@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS - Cấu hình Link Đích</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- MÀN HÌNH ĐĂNG NHẬP -->
+    <div id="login-card" class="card fade-in">
+      <div class="card-header">
+        <h1>CMS Đăng Nhập</h1>
+        <p>Vui lòng đăng nhập để quản lý hệ thống</p>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Tên đăng nhập</label>
+          <input type="text" id="username" placeholder="Nhập tên đăng nhập..." required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <input type="password" id="password" placeholder="Nhập mật khẩu..." required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-login">
+          <span>Đăng nhập</span>
+          <div class="loader" id="login-loader"></div>
+        </button>
+        <div id="login-error" class="alert alert-error"></div>
+      </form>
+    </div>
+
+    <!-- MÀN HÌNH DASHBOARD -->
+    <div id="dashboard-card" class="card fade-in hidden">
+      <div class="dashboard-header">
+        <div>
+          <h1>Hệ Thống CMS</h1>
+          <p>Cấu hình đường dẫn chuyển hướng cho Landing Page</p>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary btn-sm">Đăng xuất</button>
+      </div>
+
+      <div class="card-body">
+        <div class="status-panel">
+          <div class="status-label">Trạng thái kết nối DB:</div>
+          <div class="status-value success">
+            <span class="status-dot"></span> Đã kết nối
+          </div>
+        </div>
+
+
+
+        <!-- CẤU HÌNH THEO TÊN MIỀN -->
+        <div class="domain-section">
+          <h2 class="section-title">Cấu hình chuyển hướng theo Tên miền</h2>
+          <form id="domain-form" class="form-row">
+            <div class="input-col" style="flex: 1;">
+              <input type="text" id="domain-name" placeholder="Tên miền (ví dụ: domain-a.com)" required>
+            </div>
+            <div class="input-col" style="flex: 2;">
+              <input type="url" id="domain-target" placeholder="Link đích (ví dụ: https://...)" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-add-domain" style="width: 100px;">
+              <span>Thêm mới</span>
+              <div class="loader" id="domain-loader"></div>
+            </button>
+          </form>
+          
+          <div id="domain-toast" class="alert" style="margin-bottom: 14px;"></div>
+
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Tên miền</th>
+                  <th>Đường dẫn đích</th>
+                  <th style="width: 100px; text-align: center;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="domain-list">
+                <tr>
+                  <td colspan="3" style="text-align: center; color: var(--text-secondary);">Đang tải danh sách...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
